@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#101a17">
+<title>筋トレログ</title>
+<style>
+:root{--bg:#101a17;--panel:#192622;--panel2:#21312b;--line:#34453d;--text:#f1f6f2;--muted:#a6b8ad;--green:#b7f36b;--green2:#83c943;--orange:#ffbe73;--red:#ff8585}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Hiragino Kaku Gothic ProN","Noto Sans JP",sans-serif;font-size:15px}
+.app{max-width:760px;margin:auto;min-height:100vh;padding-bottom:92px}.top{padding:25px 20px 18px;background:linear-gradient(140deg,#20352b,#101a17 75%);border-bottom:1px solid var(--line)}
+.eyebrow{color:var(--green);font-size:11px;letter-spacing:.16em;font-weight:800}.top h1{margin:8px 0 4px;font-size:27px;letter-spacing:-.03em}.sub{color:var(--muted);font-size:13px}
+main{padding:18px 16px}.nav{position:fixed;bottom:0;left:0;right:0;display:flex;justify-content:center;background:#101a17ed;backdrop-filter:blur(16px);border-top:1px solid var(--line);z-index:10;padding:8px 6px calc(8px + env(safe-area-inset-bottom))}
+.nav button{flex:1;max-width:180px;border:0;background:none;color:var(--muted);font-size:11px;padding:7px 2px;cursor:pointer}.nav button span{display:block;font-size:20px;margin-bottom:3px}.nav button.active{color:var(--green)}
+.page{display:none}.page.active{display:block}.section-head{display:flex;align-items:center;justify-content:space-between;margin:5px 2px 12px}.section-head h2{font-size:17px;margin:0}.muted{color:var(--muted)}.small{font-size:12px}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.card{background:var(--panel);border:1px solid var(--line);border-radius:17px;padding:15px;margin-bottom:12px}.metric-label{font-size:12px;color:var(--muted)}.metric{font-size:26px;font-weight:800;letter-spacing:-.04em;margin:8px 0 3px}.unit{font-size:12px;color:var(--muted);font-weight:500}.accent{color:var(--green)}.pill{display:inline-block;border-radius:30px;background:#2a3d30;color:var(--green);padding:5px 9px;font-size:11px}
+button,.btn{font:inherit;cursor:pointer}.primary{width:100%;border:0;border-radius:13px;background:var(--green);color:#142013;font-weight:800;padding:14px}.secondary{border:1px solid var(--line);border-radius:11px;background:var(--panel2);color:var(--text);padding:10px 12px}.danger{border:1px solid #714747;border-radius:10px;background:#3a2424;color:#ffaaaa;padding:8px 10px}
+label{display:block;font-size:12px;color:var(--muted);margin:12px 0 6px}input,select,textarea{width:100%;border:1px solid var(--line);background:#111c18;color:var(--text);border-radius:11px;padding:12px;font:inherit;min-width:0}input:focus,select:focus{outline:2px solid #8fcf52}
+.formgrid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.setrow{display:grid;grid-template-columns:36px 1fr 1fr;gap:8px;align-items:center;margin:8px 0}.setrow b{color:var(--muted);font-size:12px}.setrow input{padding:10px}.sethead{display:grid;grid-template-columns:36px 1fr 1fr;gap:8px;color:var(--muted);font-size:11px;margin-top:15px}
+.list-item{padding:13px 0;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;gap:12px}.list-item:last-child{border-bottom:0}.item-title{font-weight:700}.item-meta{font-size:12px;color:var(--muted);margin-top:5px}.right{text-align:right}.empty{padding:25px 12px;text-align:center;color:var(--muted);font-size:13px;line-height:1.7}
+.chart{width:100%;height:210px;display:block}.legend{font-size:11px;color:var(--muted);display:flex;gap:12px;align-items:center}.dot{display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--green);margin-right:5px}
+.barline{height:8px;background:#304239;border-radius:10px;overflow:hidden;margin-top:8px}.barline i{display:block;height:100%;background:var(--green);border-radius:10px}.tabs{display:flex;gap:7px;overflow:auto;margin-bottom:13px}.tabs button{white-space:nowrap;border:1px solid var(--line);background:var(--panel);color:var(--muted);border-radius:25px;padding:8px 12px;font-size:12px}.tabs button.active{background:var(--green);border-color:var(--green);color:#152014;font-weight:800}
+.notice{background:#263426;border:1px solid #46613c;border-radius:12px;padding:12px;font-size:12px;line-height:1.6;color:#d7e8cf;margin:12px 0}
+.inline{display:flex;align-items:center;justify-content:space-between;gap:8px}.footer-note{font-size:11px;line-height:1.6;color:var(--muted);margin:15px 2px}
+@media(min-width:600px){main{padding:22px}.top{padding:30px 24px}.grid{grid-template-columns:repeat(4,minmax(0,1fr))}.metric{font-size:25px}}
+</style>
+</head>
+<body>
+<div class="app">
+<header class="top"><div class="eyebrow">STRENGTH LOG / PERSONAL</div><h1>筋トレログ <span style="color:var(--green)">●</span></h1><div class="sub">記録を積み上げて、成長を見える化。</div></header>
+<main>
+<section class="page active" id="home">
+<div class="section-head"><h2>ダッシュボード</h2><span class="pill" id="todayLabel"></span></div>
+<div class="grid">
+<div class="card"><div class="metric-label">今週のトレーニング</div><div class="metric" id="weekCount">0<span class="unit"> 回</span></div><div class="small muted">月曜〜今日</div></div>
+<div class="card"><div class="metric-label">今週の総負荷量</div><div class="metric" id="weekVol">0</div><div class="small muted">kg・回（種目内の合計）</div></div>
+<div class="card"><div class="metric-label">目標体重まで</div><div class="metric" id="weightGap">—</div><div class="small muted">目標 65 kg</div></div>
+<div class="card"><div class="metric-label">記録した種目</div><div class="metric" id="exerciseCount">0<span class="unit"> 種目</span></div><div class="small muted">累計</div></div>
+</div>
+<div class="section-head"><h2>最近のトレーニング</h2><button class="secondary" onclick="showPage('record')">＋ 記録する</button></div>
+<div class="card" id="recentList"></div>
+<div class="section-head"><h2>次回に向けて</h2></div>
+<div class="card"><div class="inline"><div><div class="item-title" id="nextTitle">記録を始めましょう</div><div class="item-meta" id="nextMeta">前回の内容を見ながら、少しずつ伸ばしていきます。</div></div><span style="font-size:24px">↗</span></div></div>
+<div class="footer-note">総負荷量は「重量 × 回数」のセット合計。筋肥大の目安のひとつとして、同じ種目の推移を見ましょう。</div>
+</section>
+
+<section class="page" id="record">
+<div class="section-head"><h2>トレーニングを記録</h2><span class="pill">WORKOUT</span></div>
+<div class="card">
+<div class="formgrid"><div><label for="date">日付</label><input id="date" type="date"></div><div><label for="duration">実施時間（分）</label><input id="duration" type="number" min="0" placeholder="例 35"></div></div>
+<label for="part">部位</label><select id="part"><option>胸</option><option>背中</option><option>肩</option><option>上腕二頭筋</option><option>上腕三頭筋</option><option>脚</option><option>腹筋</option><option>全身</option></select>
+<label for="exercise">種目名</label><input id="exercise" list="exerciseOptions" placeholder="例：ダンベルプレス"><datalist id="exerciseOptions"><option>ダンベルプレス</option><option>ダンベルフライ</option><option>ワンハンドロー</option><option>ダンベルショルダープレス</option><option>ダンベルカール</option><option>フレンチプレス</option><option>ゴブレットスクワット</option><option>ルーマニアンデッドリフト</option></datalist>
+<div class="inline" style="margin-top:18px"><div><strong>セット内容</strong><div class="small muted">重量は片手あたりなど、毎回同じ基準で入力</div></div><button class="secondary" type="button" onclick="addSet()">＋ セット追加</button></div>
+<div class="sethead"><span>SET</span><span>重量 (kg)</span><span>回数</span></div><div id="sets"></div>
+<label for="rir">RIR（最後のセットであと何回できそう？）</label><select id="rir"><option value="">未記録</option><option value="0">0回（限界）</option><option value="1">1回</option><option value="2">2回</option><option value="3">3回</option><option value="4">4回以上</option></select>
+<label for="memo">メモ</label><textarea id="memo" rows="2" placeholder="フォーム、体調、次回の目標など"></textarea>
+<div class="notice" id="volumePreview">入力すると、この種目の総負荷量がここに表示されます。</div>
+<button class="primary" onclick="saveWorkout()">記録を保存</button>
+</div>
+<div class="section-head"><h2>最近の記録</h2></div><div class="card" id="recordHistory"></div>
+</section>
+
+<section class="page" id="analysis">
+<div class="section-head"><h2>分析・グラフ</h2><span class="pill">INSIGHTS</span></div>
+<div class="tabs" id="analysisTabs"><button class="active" data-tab="volume">総負荷量</button><button data-tab="exercise">種目別</button><button data-tab="parts">部位別</button><button data-tab="sets">セット数</button></div>
+<div class="card"><div class="inline"><div><div class="metric-label" id="chartTitle">週間総負荷量の推移</div><div class="metric accent" id="chartTotal">0 <span class="unit">kg・回</span></div></div><span class="legend"><i class="dot"></i>記録値</span></div><canvas class="chart" id="chart" aria-label="トレーニング分析グラフ"></canvas><div class="small muted" id="chartCaption">同じ計算ルールで記録した総負荷量の推移</div></div>
+<div class="section-head"><h2 id="detailTitle">部位別の週間総負荷量</h2></div><div class="card" id="analysisDetails"></div>
+<div class="notice">総負荷量は種目や部位をまたいだ優劣の比較には向きません。同じ種目・同じ部位の経時変化を中心に見ましょう。セット数やRIRも合わせて確認すると、負荷の意味を捉えやすくなります。</div>
+</section>
+
+<section class="page" id="goals">
+<div class="section-head"><h2>目標・身体記録</h2><span class="pill">GOALS</span></div>
+<div class="card"><div class="metric-label">目標体重</div><div class="metric accent">65.0 <span class="unit">kg</span></div><div class="small muted">体重を入力すると進捗を表示します。</div>
+<label for="bodyWeight">現在の体重 (kg)</label><input id="bodyWeight" type="number" step="0.1" placeholder="例 60.6">
+<div class="formgrid"><div><label for="arm">上腕周囲径 (cm)</label><input id="arm" type="number" step="0.1" placeholder="任意"></div><div><label for="chest">胸囲 (cm)</label><input id="chest" type="number" step="0.1" placeholder="任意"></div></div>
+<label for="measureDate">測定日</label><input id="measureDate" type="date"><button class="primary" style="margin-top:14px" onclick="saveMeasurement()">身体記録を保存</button></div>
+<div class="section-head"><h2>身体サイズの推移</h2></div><div class="card" id="measureHistory"></div>
+<div class="section-head"><h2>データ管理</h2></div><div class="card"><div class="small muted" style="line-height:1.7">記録はこのブラウザの端末内に保存されます。ブラウザのデータ消去や端末変更に備えて、定期的に書き出してください。</div><div class="inline" style="margin-top:12px"><button class="secondary" onclick="exportData()">データを書き出す</button><label class="secondary" style="margin:0;cursor:pointer">読み込む<input type="file" accept="application/json" style="display:none" onchange="importData(event)"></label></div><button class="danger" style="margin-top:12px" onclick="clearData()">全記録を削除</button></div>
+</section>
+</main>
+<nav class="nav"><button class="active" data-page="home"><span>⌂</span>ホーム</button><button data-page="record"><span>＋</span>記録</button><button data-page="analysis"><span>▥</span>分析・グラフ</button><button data-page="goals"><span>◎</span>目標</button></nav>
+</div>
+<script>
+const $=id=>document.getElementById(id);
+const STORE='strengthLogV1';
+let data={workouts:[],measurements:[]},activeTab='volume',setCounter=0;
+function load(){try{const v=JSON.parse(localStorage.getItem(STORE)||'{}');data={workouts:Array.isArray(v.workouts)?v.workouts:[],measurements:Array.isArray(v.measurements)?v.measurements:[]}}catch(e){}}
+function persist(){localStorage.setItem(STORE,JSON.stringify(data))}
+function localDate(d=new Date()){return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`}
+function weekStart(s){const d=new Date(s+'T12:00:00');const day=(d.getDay()+6)%7;d.setDate(d.getDate()-day);return localDate(d)}
+function vol(w){return w.sets.reduce((a,s)=>a+(+s.weight||0)*(+s.reps||0),0)}
+function fmt(n){return Math.round(n).toLocaleString('ja-JP')}
+function esc(s){return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+function showPage(p){document.querySelectorAll('.page').forEach(x=>x.classList.toggle('active',x.id===p));document.querySelectorAll('[data-page]').forEach(x=>x.classList.toggle('active',x.dataset.page===p));if(p==='analysis')renderAnalysis();if(p==='goals')renderMeasurements();window.scrollTo({top:0,behavior:'smooth'})}
+document.querySelectorAll('[data-page]').forEach(b=>b.addEventListener('click',()=>showPage(b.dataset.page)));
+function addSet(weight='',reps=''){setCounter++;const d=document.createElement('div');d.className='setrow';d.innerHTML=`<b>${setCounter}</b><input type="number" min="0" step="0.5" placeholder="kg" class="sw" value="${weight}" aria-label="セット${setCounter}重量"><input type="number" min="0" step="1" placeholder="回" class="sr" value="${reps}" aria-label="セット${setCounter}回数">`; $('sets').appendChild(d);d.querySelectorAll('input').forEach(i=>i.addEventListener('input',updatePreview))}
+function updatePreview(){const total=[...$('sets').querySelectorAll('.setrow')].reduce((a,r)=>a+(+r.querySelector('.sw').value||0)*(+r.querySelector('.sr').value||0),0);$('volumePreview').textContent=`この種目の総負荷量：${fmt(total)} kg・回（重量 × 回数の合計）`}
+function saveWorkout(){const exercise=$('exercise').value.trim();const sets=[...$('sets').querySelectorAll('.setrow')].map(r=>({weight:+r.querySelector('.sw').value||0,reps:+r.querySelector('.sr').value||0})).filter(s=>s.weight>0&&s.reps>0);if(!exercise){alert('種目名を入力してください');return}if(!sets.length){alert('重量と回数を1セット以上入力してください');return}const w={id:Date.now(),date:$('date').value||localDate(),part:$('part').value,exercise,sets,rir:$('rir').value,memo:$('memo').value.trim(),duration:+$('duration').value||0};data.workouts.push(w);persist();$('exercise').value='';$('memo').value='';$('rir').value='';$('duration').value='';$('sets').innerHTML='';setCounter=0;addSet();addSet();updatePreview();renderAll();alert(`保存しました：総負荷量 ${fmt(vol(w))} kg・回`)}
+function workoutHTML(w,del=true){return `<div class="list-item"><div style="min-width:0"><div class="item-title">${esc(w.exercise)} <span class="pill">${esc(w.part)}</span></div><div class="item-meta">${esc(w.date)} · ${w.sets.length}セット · ${w.sets.map(s=>`${s.weight}kg×${s.reps}`).join(' / ')}${w.rir!==''?` · RIR ${w.rir}`:''}</div>${w.memo?`<div class="item-meta">${esc(w.memo)}</div>`:''}</div><div class="right"><strong>${fmt(vol(w))}</strong><div class="item-meta">kg・回</div>${del?`<button class="danger" style="margin-top:7px" onclick="deleteWorkout(${w.id})">削除</button>`:''}</div></div>`}
+function deleteWorkout(id){if(confirm('この記録を削除しますか？')){data.workouts=data.workouts.filter(w=>w.id!==id);persist();renderAll()}}
+function renderHome(){const now=localDate(),ws=weekStart(now),week=data.workouts.filter(w=>w.date>=ws&&w.date<=now);$('todayLabel').textContent=now.replaceAll('-','.');$('weekCount').innerHTML=`${new Set(week.map(w=>w.date)).size}<span class="unit"> 日</span>`;$('weekVol').textContent=fmt(week.reduce((a,w)=>a+vol(w),0));const latest=[...data.measurements].sort((a,b)=>b.date.localeCompare(a.date))[0];$('weightGap').textContent=latest?.weight?`${Math.max(0,65-latest.weight).toFixed(1)} kg`:'—';$('exerciseCount').innerHTML=`${new Set(data.workouts.map(w=>w.exercise)).size}<span class="unit"> 種目</span>`;const recent=[...data.workouts].sort((a,b)=>b.date.localeCompare(a.date)||b.id-a.id).slice(0,4);$('recentList').innerHTML=recent.length?recent.map(w=>workoutHTML(w,false)).join(''):'<div class="empty">まだ記録がありません。<br>最初のトレーニングを記録してみましょう。</div>';const latestW=recent[0];$('nextTitle').textContent=latestW?`前回：${latestW.exercise}`:'記録を始めましょう';$('nextMeta').textContent=latestW?`前回 ${fmt(vol(latestW))} kg・回。フォームを保ち、回数や重量を少しずつ伸ばしましょう。`:'最初の記録を保存すると、ここに次回のヒントが表示されます。'}
+function renderRecordHistory(){const a=[...data.workouts].sort((a,b)=>b.date.localeCompare(a.date)||b.id-a.id).slice(0,8);$('recordHistory').innerHTML=a.length?a.map(w=>workoutHTML(w)).join(''):'<div class="empty">保存した記録がここに表示されます。</div>'}
+function svgChart(canvas,labels,values){const ctx=canvas.getContext('2d'),rect=canvas.getBoundingClientRect(),dpr=window.devicePixelRatio||1;canvas.width=rect.width*dpr;canvas.height=210*dpr;ctx.scale(dpr,dpr);const W=rect.width,H=210,p={l:37,r:12,t:16,b:35},cw=W-p.l-p.r,ch=H-p.t-p.b;ctx.clearRect(0,0,W,H);ctx.font='10px sans-serif';ctx.strokeStyle='#34453d';ctx.fillStyle='#a6b8ad';ctx.lineWidth=1;const max=Math.max(1,...values)*1.12;for(let i=0;i<4;i++){const y=p.t+ch*i/3;ctx.beginPath();ctx.moveTo(p.l,y);ctx.lineTo(W-p.r,y);ctx.stroke();ctx.fillText(fmt(max*(1-i/3)),2,y+4)}if(!values.length){ctx.fillStyle='#a6b8ad';ctx.font='13px sans-serif';ctx.fillText('記録するとグラフが表示されます',p.l+5,H/2);return}const pts=values.map((v,i)=>({x:p.l+(values.length===1?cw/2:cw*i/(values.length-1)),y:p.t+ch-(v/max)*ch}));ctx.strokeStyle='#b7f36b';ctx.lineWidth=2.5;ctx.beginPath();pts.forEach((q,i)=>i?ctx.lineTo(q.x,q.y):ctx.moveTo(q.x,q.y));ctx.stroke();pts.forEach((q,i)=>{ctx.fillStyle='#b7f36b';ctx.beginPath();ctx.arc(q.x,q.y,3.5,0,Math.PI*2);ctx.fill();ctx.fillStyle='#a6b8ad';ctx.textAlign='center';ctx.fillText(labels[i],q.x,H-12)});ctx.textAlign='start'}
+function weekly(){const today=new Date();const starts=[];for(let i=7;i>=0;i--){const d=new Date(today);d.setDate(d.getDate()-((d.getDay()+6)%7)-7*i);starts.push(localDate(d))}return starts.map(s=>{const end=new Date(s+'T12:00:00');end.setDate(end.getDate()+6);const e=localDate(end),ws=data.workouts.filter(w=>w.date>=s&&w.date<=e);return {label:s.slice(5).replace('-','/'),start:s,volume:ws.reduce((a,w)=>a+vol(w),0),sets:ws.reduce((a,w)=>a+w.sets.length,0),count:ws.length,workouts:ws}})}
+function renderAnalysis(){const weeks=weekly(),tab=activeTab;let labels=weeks.map(w=>w.label),values=weeks.map(w=>tab==='sets'?w.sets:tab==='volume'?w.volume:w.count);$('chartTitle').textContent=tab==='volume'?'週間総負荷量の推移':tab==='sets'?'週間セット数の推移':tab==='exercise'?'種目別の記録回数':'週間トレーニング日数';$('chartTotal').innerHTML=`${fmt(values.reduce((a,v)=>a+v,0))} <span class="unit">${tab==='volume'?'kg・回':tab==='sets'?'セット':'回'}</span>`;$('chartCaption').textContent=tab==='volume'?'各週の全種目の総負荷量合計。種目別の推移も下で確認できます。':'直近8週間の記録。週の区切りは月曜日です。';$('detailTitle').textContent=tab==='parts'?'部位別の週間総負荷量':tab==='sets'?'部位別の週間セット数':tab==='exercise'?'種目別の総負荷量':'部位別の週間総負荷量';if(tab==='exercise'){const names=[...new Set(data.workouts.map(w=>w.exercise))];$('analysisDetails').innerHTML=names.length?names.map(n=>{const ws=data.workouts.filter(w=>w.exercise===n),total=ws.reduce((a,w)=>a+vol(w),0);return `<div class="list-item"><div><div class="item-title">${esc(n)}</div><div class="item-meta">${ws.length}回記録 · 最新 ${esc([...ws].sort((a,b)=>b.date.localeCompare(a.date))[0].date)}</div></div><div class="right"><strong>${fmt(total)}</strong><div class="item-meta">kg・回</div></div></div>`}).join(''):'<div class="empty">記録すると種目別に集計します。</div>'}else{const parts=[...new Set(['胸','背中','肩','上腕二頭筋','上腕三頭筋','脚','腹筋','全身',...data.workouts.map(w=>w.part)])];const totals=parts.map(part=>({part,n:data.workouts.filter(w=>w.part===part).reduce((a,w)=>a+(tab==='sets'?w.sets.length:vol(w)),0)})).filter(x=>x.n>0).sort((a,b)=>b.n-a.n);const max=Math.max(1,...totals.map(x=>x.n));$('analysisDetails').innerHTML=totals.length?totals.map(x=>`<div style="padding:10px 0"><div class="inline"><span>${esc(x.part)}</span><strong>${fmt(x.n)} <span class="small muted">${tab==='sets'?'セット':'kg・回'}</span></strong></div><div class="barline"><i style="width:${x.n/max*100}%"></i></div></div>`).join(''):'<div class="empty">記録すると部位別に集計します。</div>'}requestAnimationFrame(()=>svgChart($('chart'),labels,values))}
+document.querySelectorAll('[data-tab]').forEach(b=>b.addEventListener('click',()=>{activeTab=b.dataset.tab;document.querySelectorAll('[data-tab]').forEach(x=>x.classList.toggle('active',x===b));renderAnalysis()}));
+function saveMeasurement(){const weight=+$('bodyWeight').value||0,arm=+$('arm').value||0,chest=+$('chest').value||0;if(!weight&&!arm&&!chest){alert('体重・上腕周囲径・胸囲のいずれかを入力してください');return}data.measurements.push({id:Date.now(),date:$('measureDate').value||localDate(),weight,arm,chest});persist();renderAll();renderMeasurements();alert('身体記録を保存しました')}
+function renderMeasurements(){const a=[...data.measurements].sort((a,b)=>b.date.localeCompare(a.date));$('measureHistory').innerHTML=a.length?a.map(m=>`<div class="list-item"><div><div class="item-title">${esc(m.date)}</div><div class="item-meta">${m.arm?`上腕 ${m.arm} cm · `:''}${m.chest?`胸囲 ${m.chest} cm`:''}</div></div><div class="right"><strong>${m.weight?m.weight+' kg':'—'}</strong><div class="item-meta">体重</div></div></div>`).join(''):'<div class="empty">測定記録はまだありません。</div>'}
+function exportData(){const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download=`strength-log-${localDate()}.json`;a.click();URL.revokeObjectURL(url)}
+function importData(e){const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=()=>{try{const v=JSON.parse(r.result);if(!Array.isArray(v.workouts)||!Array.isArray(v.measurements))throw Error();if(confirm('現在の記録に読み込みデータを置き換えますか？')){data=v;persist();renderAll();alert('読み込みました')}}catch(err){alert('ファイルを読み込めませんでした')}};r.readAsText(f);e.target.value=''}
+function clearData(){if(confirm('すべてのトレーニング記録と身体記録を削除します。この操作は取り消せません。')){data={workouts:[],measurements:[]};persist();renderAll();renderMeasurements()}}
+function renderAll(){renderHome();renderRecordHistory();if($('analysis').classList.contains('active'))renderAnalysis();if($('goals').classList.contains('active'))renderMeasurements()}
+load();$('date').value=localDate();$('measureDate').value=localDate();addSet();addSet();updatePreview();renderAll();window.addEventListener('resize',()=>{if($('analysis').classList.contains('active'))renderAnalysis()});
+</script>
+</body></html>
